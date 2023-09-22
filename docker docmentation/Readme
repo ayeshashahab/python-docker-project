@@ -1,0 +1,58 @@
+# What is docker?
+Docker is a tool that makes it easy to package and run applications, along with all their dependencies, in a consistent and isolated environment called a container. It helps developers create, share, and deploy software reliably across different systems.
+
+# IN the first i was dowloaded docker in laptop it show to requirements 
+1.Hyper-V
+2.WSL 
+that too option are present in window feature.it only need to enble. Going to that path Control Panel\Programs\Programs and Features.you need to click left side option Turn Windows feature on or off.then it show a box of different windows feature so need to on both requirements then docker is succeccfully installed in my laptop.
+
+After this i was sign up or login the docker.
+
+# There are many of method of create image in docker
+few are here:-
+
+1.Going to docker desktop .On the left side you see the image option. when you chick on it.You see the option Search on the destop click on it and search the image you need it.I need to dowload (pull,Run) image for flutter mobile project so i dowload that (image:ed8139570f0622afe5b9dca3f152bdd7538a8945c026a9f27add1985efc4c2f4)
+
+2.download image by command using any terminal like VS code,cmd,powershell
+
+# Create a great dev environment with Docker
+ First install vs code and download the docker extension
+ Create a folder name docker docmentation
+ In this folder i was create 3 files (Dockerfile,Readme,requirements.txt) and 1 folder name src.In this ,I was craete a python file(main.py).
+
+ In this,some code i wrote that
+
+# Dockerfile
+FROM python:3.10-slim
+
+WORKDIR /code
+
+COPY ./requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ./src ./src
+
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
+
+# requirements.txt
+fastapi
+uvicorn
+
+# main.py
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
+# After this,I run that some Commands
+# for buliding fastapi-image in docker
+docker build -t fastapi-image .
+# for run the code in port 80 by using fast api.
+docker run --name fastapi-container -p 80:80 fastapi-image
+ 
+docker run -d --name fastapi-container -p 80:80 fastapi-image
+ 
